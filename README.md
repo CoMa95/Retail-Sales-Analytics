@@ -1,73 +1,98 @@
-# Project XYZ
+# Retail Sales Trend Analysis - Hackathon
 
-**Project XYZ** is a comprehensive data analysis tool designed to streamline data exploration, analysis, and visualisation. The tool supports multiple data formats and provides an intuitive interface for both novice and expert data scientists.
+This hackathon project aims to explore a retail sales dataset. The purpose is to exercise ETL skills, the creation of visualisations, as well as of overall project management.
 
 # ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
 
 ## Dataset Content
-* Describe your dataset. Choose a dataset of reasonable size to avoid exceeding the repository's maximum size of 100Gb.
-
+* The dataset, obtained from Kaggle, is comprised of 3 different CSV files:
+    - Stores (577 bytes): anonymized information about the 45 stores, indicating the type and size of store.
+    - Features (600 kilobytes): additional data related to the store, department, and regional activity for the given dates.
+    - Sales (13.3 megabytes): historical sales data, covering the period 2010-02-05 to 2012-11-01.
 
 ## Business Requirements
-* Describe your business requirements
+* The main aims are:
+    - Identify sales trends
+    - Evaluate the impact of promotional markdowns on sales
+    - Provide useful visualisations
 
 
 ## Hypothesis and how to validate?
-* List here your project hypothesis(es) and how you envision validating it (them) 
+* The project's aim is mostly exploratory in nature, there is no specific hypothesis to be tested. However, there are several expectations needing confirmation:
+    1. There is a significant difference in sales between Holiday and non Holiday weeks;
+    1. MarkDowns affect sales significantly;
+    2. Unemployment and CPI influence sales. 
 
 ## Project Plan
-* Outline the high-level steps taken for the analysis.
-* How was the data managed throughout the collection, processing, analysis and interpretation steps?
-* Why did you choose the research methodologies you used?
+* High-level project layout:
+    1. Extraction
+    2. Preliminary exploration
+    3. Cleaning
+    4. Transformation and feature engineering
+    5. Exploratory data analysis + visualisations
+
+* Data was 'collected' (i.e. downloaded) in CSV format. Data from each CSV file was then extracted as Pandas dataframe, subsequently merged into a unitary dataframe. It was kept in dataframe format for the remainder of the project.
+* Pandas dataframe format was chosen for it versatility: as the project required extensive manipulation of the data, Pandas' facilitation of data wrangling tasks made it the ideal framework.
 
 ## The rationale to map the business requirements to the Data Visualisations
-* List your business requirements and a rationale to map them to the Data Visualisations
+* Understanding the target variable - Weekly_Sales. Exploration always starts with the target variable. Since this is a continuous variables, looking into the distribution is a crucial step. 
+    - Fig1 provides a histogram of the distribution, prior to any tampering.
+    - Fig3 is a histogram for after cleaning.
+    - Figs 4 and 5 offer additional visualisations of its distribution.
+
+* Sale trends were investigated at a high-level (i.e. store level over the whole period).
+    - Fig12 offers an interactive view of the overall sales trend.
+    - Fig13 explores the differences between high and low performers.
+
+* The effects of Mark Downs were explored using:
+    - Fig10, a correlation matrix, shows the relationship (linear) between various features
+    - Fig14, a scatterplot, investigates in more detail the effects of the best correlated Mark Down (no. 5) on sales.
 
 ## Analysis techniques used
-* List the data analysis methods used and explain limitations or alternative approaches.
-* How did you structure the data analysis techniques. Justify your response.
-* Did the data limit you, and did you use an alternative approach to meet these challenges?
-* How did you use generative AI tools to help with ideation, design thinking and code optimisation?
+The analysis applied structured data cleaning, transformation, and visualization for retail sales.
+* Notable decisions:
+    - Negative and anomalous sales were corrected or removed using conditional logic and median imputation.
+    - Outliers were addressed via quantile-based capping and log–z-score filtering.
+    - MarkDown features were cleaned, capped, and normalized through log transformation and z-score standardization.
+    - Temporal trends were explored with interactive Plotly line plots and Seaborn time-series visuals.
+    - Correlations and distributional patterns were examined through heatmaps, histograms, and scatterplots.
+
+* Further justification for each step can be found in the project notebook.
 
 ## Ethical considerations
-* Were there any data privacy, bias or fairness issues with the data?
-* How did you overcome any legal or societal issues?
-
-## Dashboard Design
-* List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
-* Later, during the project development, you may revisit your dashboard plan to update a given feature (for example, at the beginning of the project you were confident you would use a given plot to display an insight but subsequently you used another plot type).
-* How were data insights communicated to technical and non-technical audiences?
-* Explain how the dashboard was designed to communicate complex data insights to different audiences. 
+* The data was already anonymised, there are no identified ethical issues. 
 
 ## Unfixed Bugs
-* Please mention unfixed bugs and why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation are not valid reasons to leave bugs unfixed.
-* Did you recognise gaps in your knowledge, and how did you address them?
-* If applicable, include evidence of feedback received (from peers or instructors) and how it improved your approach or understanding.
+* No unfixed bugs.
+* Weaknesses:
+    - Comparative analysis does not cover inter-store or inter-department.
+    - Trend analysis does not go into detail at department level, or year by year.
+    - Only explored linear relationships between the features.
+* Improvements:
+    - More in-depth statistical analysis of the relationship between Weekly_Sales and the other features.
+    - Web-based method of disseminating the visualisations.
 
 ## Development Roadmap
-* What challenges did you face, and what strategies were used to overcome these challenges?
-* What new skills or tools do you plan to learn next based on your project experience? 
+* An early challenge was merging the original 3 CSV files. I first needed to establish which is the main table (i.e. where the target variable is), then to understand how to map Features onto Sales (by a combination of Store + Department, rather than Store alone). 
 
 ## Findings / Conclusions
-
+1. Sales follows the expected Exponential distribution;
+2. There is a noticeable increase in sales during Holiday;
+3. High performing stores manage to create big sales spikes during Holidays, whilst low performing ones exhibit a constant level all year round;
+4. Between the 4 major holidays (mentioned by the dataset creators), only Christmas and Thanksgiving/Black Friday result in significant trend changes;
+5. There are mini spikes in sales at the beginning of each month;
+6. The Mark Downs are not very well correlated with sales (the best having a mere 0.17 positive correlation). Suggesting that they do not play a major role. Though, further analysis using statistical tests is required to confirm this.
+6. It remains unclear whether Mark Downs increase sales during Holidays (see Fig14).  
+7. Unemployment and CPI are (at least linearly) not correlated to sales; 
 
 ## Main Data Analysis Libraries
-* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
-
+* The following are the main libraries used in the project:
+    1. Pandas - create and manipulate dataframes;
+    2. Matplotlib - foundation layer for visualisations; 
+    3. Seaborn - more advanced and visually pleasing visualisations;
+    4. Plotly express - interactive visualisations.
 
 ## Credits 
 
-* In this section, you need to reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials, however, it is important to be very specific about these sources to avoid plagiarism. 
-* You can break the credits section up into Content and Media, depending on what you have included in your project. 
-
-### Content 
-
-- The text for the Home page was taken from Wikipedia Article A
-- Instructions on how to implement form validation on the Sign-Up page was taken from [Specific YouTube Tutorial](https://www.youtube.com/)
-- The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
-
-### Media
-
-- The photos used on the home and sign-up page are from This Open-Source site
-- The images used for the gallery page were taken from this other open-source site
+* Data was obtained from Kaggle (https://www.kaggle.com/datasets/manjeetsingh/retaildataset). 
